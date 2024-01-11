@@ -10,6 +10,26 @@ const routes: Routes = [
   {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'bot',
+    loadChildren: () => import('./bot/bot.module').then( m => m.BotPageModule)
+  },
+  {
+    path: 'intensities',
+    loadChildren: () => import('./intensities/intensities.module').then( m => m.IntensitiesPageModule)
+  },
+  {
+    path: 'checklist',
+    loadChildren: () => import('./checklist/checklist.module').then( m => m.ChecklistPageModule)
+  },
+  {
+    path: 'about',
+    loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
   }
 ];
 
