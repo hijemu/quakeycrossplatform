@@ -7,10 +7,10 @@ import { Component } from '@angular/core';
 export class AppComponent {
   public appPages = [
     { title: 'Home', url: '/folder/home', icon: 'mail' },
-    { title: 'Bot', url: '/folder/bot', icon: 'paper-plane' },
-    { title: 'Intensities', url: '/folder/intensities', icon: 'heart' },
-    { title: 'Checklist', url: '/folder/checklist', icon: 'archive' },
-    { title: 'About', url: '/folder/about', icon: 'trash' },
+    { title: 'Bot', url: '/bot', icon: 'paper-plane' },
+    { title: 'Intensities', url: '/intensities', icon: 'heart' },
+    { title: 'Checklist', url: '/checklist', icon: 'archive' },
+    { title: 'About', url: '/about', icon: 'trash' },
   ];
   constructor() {}
 }
