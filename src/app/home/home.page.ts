@@ -44,12 +44,21 @@ export class HomePage implements OnInit {
   private geolocation: Geolocation,
   public platform: Platform,
 ) {
+
+    this.map = new mapboxgl.Map({
+        container: 'map',
+        style: this.style,
+        zoom: 4.5,
+        center: [this.lng, this.lat]
+      });
+      this.map.resize();
+
         this.initializeAsync();
       }
       
       async initializeAsync() {
-        mapboxgl.accessToken = this.accessToken;
-      
+        //mapboxgl.accessToken = this.accessToken;
+        
         let loading = await this.loadingCtrl.create({
           message: 'Loading...'
         });
@@ -146,7 +155,7 @@ export class HomePage implements OnInit {
   addmarkers(earthquake:any, map:mapboxgl.Map){
     let geojson : any;
     
-    earthquake.forEach(function(eqdata){
+    earthquake.forEach(function(eqdata: any){
       
           
       geojson = {
@@ -167,7 +176,7 @@ export class HomePage implements OnInit {
     
        
       // add markers to map
-      geojson.features.forEach(function(marker) {
+      geojson.features.forEach(function(marker: any) {
         // create a DOM element for the marker
         let el = document.createElement('div');
         el.className = 'marker';
@@ -213,7 +222,7 @@ export class HomePage implements OnInit {
     
   }
 
-  get_kmdistance(current_location){
+  get_kmdistance(current_location: any){
 
     if(this.earthquake_data != undefined && current_location != undefined)
     {
@@ -313,14 +322,14 @@ export class HomePage implements OnInit {
     console.log("called notif", str);
   }
 
-  localnotif_condition(location, mode){
+  localnotif_condition(location: string, mode: string){
     if(mode =="magnitude")
        this.localnotif("Quakey - Above Magnitude 4.0 Earthquake Detected!");
     else
       this.localnotif("Quakey - Nearby Earthquake Warning! - Location: "+location);
   }
 
-  calculateRadiusDistance(lat1, lat2, lon1, lon2){
+  calculateRadiusDistance(lat1: number, lat2: number, lon1: number, lon2: number){
     let radlat1 = Math.PI * lat1/180;
     let radlat2 = Math.PI * lat2/180;
     let theta = lon1-lon2;
