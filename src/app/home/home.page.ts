@@ -4,7 +4,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { HttpClient } from '@angular/common/http';
 import { Geolocation } from '@capacitor/geolocation';
 import { NativeGeocoder } from '@capgo/nativegeocoder';
-import { NavController, ModalController, LoadingController, NavParams, Platform } from '@ionic/angular';
+import { NavController, ModalController, LoadingController, Platform } from '@ionic/angular';
 import { LocalNotifications } from '@capacitor/local-notifications';
 
 
@@ -37,9 +37,6 @@ export class HomePage implements OnInit {
   private modal: ModalController,
   private http: HttpClient,
   private loadingCtrl: LoadingController,
-  //private localNotifications: LocalNotifications,
-  public navParams: NavParams,
-  //public nativeGeocoder: NativeGeocoder,
   private ngZone: NgZone,
   private geolocation: Geolocation,
   public platform: Platform,
