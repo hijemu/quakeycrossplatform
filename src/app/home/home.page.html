@@ -1,4 +1,7 @@
 <ion-header [translucent]="true">
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css' rel='stylesheet' />
   <ion-toolbar>
     <ion-title>home</ion-title>
   </ion-toolbar>
@@ -10,4 +13,20 @@
       <ion-title size="large">home</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-fab right>
+    <button ion-fab color="quakey" mini (click)="refreshpage()">
+      <ion-icon name="md-refresh"></ion-icon>
+    </button>
+    <button ion-fab color="quakey" mini (click)="openShareLocation()">
+      <ion-icon name="md-share"></ion-icon>
+    </button>
+  </ion-fab>    
+  <ion-fab left style="height: 23%; margin-top: 5px;">
+    <img style="height: 100%" src="../../assets/magnitude_legend.png">
+  </ion-fab>
+  <div id="map-container">
+    <div id="map"></div>
+  </div>
+
 </ion-content>
