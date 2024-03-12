@@ -1,0 +1,14 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "quakeyv2",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "Geolocation": {
+      "enableHighAccuracy": true
+    },
+    "LocalNotifications": {}
+  }
+}

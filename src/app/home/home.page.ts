@@ -25,7 +25,7 @@ export class HomePage implements OnInit {
     maploaded = false;
     current_location:any = null;
     data: any;
-    accessToken = 'pk.eyJ1IjoibW9vZGxlYXJuZXIiLCJhIjoiY2s4cHdjMmRuMGhhbDNmcHM5a2w3dmVqOSJ9._Ftf5mEkRBBcUa6PjRYECg';
+    accessToken = 'pk.eyJ1IjoiaGlqZW11IiwiYSI6ImNscmhja2U5ZDBtZHoyam54dzJpcmhjbGQifQ.sSARvB_c2YPJDTsXNPC2jQ';
 
     geoAddress: any;
     geoLatitude: any;
@@ -46,42 +46,24 @@ export class HomePage implements OnInit {
       
 
   ngOnInit(): void {
-    const map = new mapboxgl.Map({
-      container: 'map', 
-      style: 'mapbox://styles/mapbox/outdoors-v9', 
-      center: [122, 13], 
-      zoom: 9, 
-      accessToken: 'pk.eyJ1IjoibW9vZGxlYXJuZXIiLCJhIjoiY2s4cHdjMmRuMGhhbDNmcHM5a2w3dmVqOSJ9._Ftf5mEkRBBcUa6PjRYECg' // Set your Mapbox access token here
-    });
-
- 
-    map.addControl(new mapboxgl.NavigationControl());
+    this.getCurrentLocation();
   }
 
+  isPlatformWeb(): boolean {
+    // Determine if the platform is web
+    return !window.hasOwnProperty('cordova');
+  }
 
-
-isPlatformWeb(): boolean 
-{
-  return this.platform.is('desktop') || this.platform.is('mobileweb');
-}
-
-async getCurrentLocationNative() {
-  if (this.platform.is('capacitor')) {
-    const { Geolocation } = Plugins;
-
+  async getCurrentLocationNative() {
     try {
-      const position = await Geolocation['getCurrentPosition']();
+      const position = await Geolocation.getCurrentPosition();
       console.log('Current position:', position);
-      // Handle position data here
+      // Handle position data
     } catch (error) {
       console.error('Error getting location:', error);
-      // Handle errors while fetching location
+      // Handle error
     }
-  } else {
-    console.log('Geolocation plugin is not available or running in a web environment.');
-    // Handle the absence of geolocation plugin or web environment
   }
-}
 
 
 
@@ -100,10 +82,22 @@ async getCurrentLocationNative() {
         console.error('Error getting location', error);
       }
     );
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log('Latitude:', position.coords.latitude);
+        console.log('Longitude:', position.coords.longitude);
+        // Handle the retrieved location data
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        // Handle errors when retrieving location
+      }
+    );
+    
   }
   
   ionViewDidLoad(){
-    // this.openShareLocation();
     this.buildMap();
     this.fetchEarthquakeData();
   }
@@ -198,75 +192,74 @@ async getCurrentLocationNative() {
     );
 }
 
-  addmarkers(earthquake:any, map:mapboxgl.Map){
-    let geojson : any;
-    
-    earthquake.forEach(function(eqdata: any){
-      
-          
-      geojson = {
-        'type': 'FeatureCollection',
-        'features': [
-        {
-        'type': 'Feature',
-        'properties': {
-        'message': 'Foo',
-        'iconSize': [100, 100]
-        },
-        'geometry': {
-        'type': 'Point',
-        'coordinates': [eqdata.LongiTude, eqdata.Latitude]
-        }
-        }]
-        };  
-    
-       
-      // add markers to map
-      geojson.features.forEach(function(marker: any) {
-        // create a DOM element for the marker
-        let el = document.createElement('div');
-        el.className = 'marker';
-        
-        let url:string = 'url(https://quakey.moodlearning.com/assets/intensity/';
-  
-        if(eqdata.Magnitude < 3.0)
-           url+='intensity2.png';
-        else if(eqdata.Magnitude >= 3.0 && eqdata.Magnitude < 4.0)
-          url+='intensity3.png';
-        else if(eqdata.Magnitude >= 4.0 && eqdata.Magnitude < 5.0)
-          url+='intensity4.png';
-        else if(eqdata.Magnitude >= 5.0 && eqdata.Magnitude < 6.0)
-          url+='intensity5.png';
-        else
-          url+='intensity6.png';
-  
-        el.style.backgroundImage = url;
-        el.style.width = marker.properties.iconSize[0] + 'px';
-        el.style.height = marker.properties.iconSize[1] + 'px';
-        
-        let popup = new mapboxgl.Popup()
-        .setHTML("<p><a href='"
-        +eqdata.link+"'><img src='"+eqdata.link+"'></img></a></p>"+
-                "<div style='color:#aa2929;'>"+
-                "<p> <ion-icon name='pin'></ion-icon> <b>Location: </b>"+eqdata.Location+"</p>"+
-                "<p> <ion-icon name='time'></ion-icon> <b>Time</b>:"+eqdata.DateAndTime+"</p>"+
-                "<p> <ion-icon name='pulse'></ion-icon><b>Magnitude </b>:"+eqdata.Magnitude+"</p>"+
-                "<p>  <ion-icon name='wifi' md='md-wifi'></ion-icon><b>Depth</b>:"+eqdata.Depth+"</p>"+
-                "</div>"
-                );
-  
-        // add marker to map
-        new mapboxgl.Marker(el)
-        .setLngLat(marker.geometry.coordinates)
-        .setPopup(popup)
-        .addTo(map);
+  addmarkers(earthquake: any, map: mapboxgl.Map) {
+    if (earthquake) {
+        let geojson: any;
+
+        earthquake.forEach(function (eqdata: any) {
+            geojson = {
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'message': 'Foo',
+                            'iconSize': [100, 100]
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': [eqdata.LongiTude, eqdata.Latitude]
+                        }
+                    }]
+            };
+
+            // add markers to map
+            geojson.features.forEach(function (marker: any) {
+                // create a DOM element for the marker
+                let el = document.createElement('div');
+                el.className = 'marker';
+
+                let url: string = 'url(https://quakey.moodlearning.com/assets/intensity/';
+
+                if (eqdata.Magnitude < 3.0)
+                    url += 'intensity2.png';
+                else if (eqdata.Magnitude >= 3.0 && eqdata.Magnitude < 4.0)
+                    url += 'intensity3.png';
+                else if (eqdata.Magnitude >= 4.0 && eqdata.Magnitude < 5.0)
+                    url += 'intensity4.png';
+                else if (eqdata.Magnitude >= 5.0 && eqdata.Magnitude < 6.0)
+                    url += 'intensity5.png';
+                else
+                    url += 'intensity6.png';
+
+                el.style.backgroundImage = url;
+                el.style.width = marker.properties.iconSize[0] + 'px';
+                el.style.height = marker.properties.iconSize[1] + 'px';
+
+                let popup = new mapboxgl.Popup()
+                    .setHTML("<p><a href='"
+                        + eqdata.link + "'><img src='" + eqdata.link + "'></img></a></p>" +
+                        "<div style='color:#aa2929;'>" +
+                        "<p> <ion-icon name='pin'></ion-icon> <b>Location: </b>" + eqdata.Location + "</p>" +
+                        "<p> <ion-icon name='time'></ion-icon> <b>Time</b>:" + eqdata.DateAndTime + "</p>" +
+                        "<p> <ion-icon name='pulse'></ion-icon><b>Magnitude </b>:" + eqdata.Magnitude + "</p>" +
+                        "<p>  <ion-icon name='wifi' md='md-wifi'></ion-icon><b>Depth</b>:" + eqdata.Depth + "</p>" +
+                        "</div>"
+                    );
+
+                // add marker to map
+                new mapboxgl.Marker(el)
+                    .setLngLat(marker.geometry.coordinates)
+                    .setPopup(popup)
+                    .addTo(map);
+            });
+
+
         });
-  
-       
-      });
-       
-    
-  }
+    } else {
+        console.error('Earthquake data is null or undefined.');
+    }
+}
 
   get_kmdistance(current_location: any){
 
@@ -308,70 +301,59 @@ async getCurrentLocationNative() {
 
   buildMap() {
     console.log("Started building map");
-    if (!this.map) {
-      this.map = new mapboxgl.Map({
-          container: 'map',
-          style: this.style,
-          zoom: 4.5,
-          center: [this.lng, this.lat]
-      });
-      this.map.resize();
-      
-      this.map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right');
-      this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
-      const geolocate = new mapboxgl.GeolocateControl({
-          fitBoundsOptions: {
-              maxZoom: 4.5
-          },
-          positionOptions: {
-              enableHighAccuracy: true,
-          },
-          trackUserLocation: true
-      });
-      this.map.addControl(geolocate, 'bottom-right');
-      
-      console.log("Map loaded");
-      
-  }
-     
-    this.map = new mapboxgl.Map({
-      container: 'map',
-      style: this.style,
-      zoom: 4.5,
-      center: [this.lng, this.lat]
-    });
-    this.map.resize();
-    
-    this.map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right');
-    this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
-    const geolocate = new mapboxgl.GeolocateControl({
-      fitBoundsOptions: {
-        maxZoom: 4.5
-    },
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      trackUserLocation: true
-    });
-    this.map.addControl(geolocate, 'bottom-right');
-  
-    console.log("Map loaded");
+    const philippinesBounds: [[number, number], [number, number]] = [
+        [115.859375, 4.389385], // Southwest bounds of the Philippines
+        [126.904764, 21.100406] // Northeast bounds of the Philippines
+    ];
 
     if (!this.map) {
-      this.map = new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/mapbox/outdoors-v9',
-          zoom: 4.5,
-          center: [this.lng, this.lat],
-          accessToken: 'pk.eyJ1IjoibW9vZGxlYXJuZXIiLCJhIjoiY2s4cHdjMmRuMGhhbDNmcHM5a2w3dmVqOSJ9._Ftf5mEkRBBcUa6PjRYECg' 
-      });
+        const philippinesCenter: [number, number] = [121.774017, 12.879721];
 
-      this.map.on('load', () => {
-        
-          console.log('Map loaded');
-      });
-  }
-    
+        this.map = new mapboxgl.Map({
+            container: 'map',
+            style: this.style,
+            zoom: 5, 
+            center: philippinesCenter,
+            maxBounds: philippinesBounds, // Restrict the map to the bounds of the Philippines
+            accessToken: 'pk.eyJ1IjoiaGlqZW11IiwiYSI6ImNscmhja2U5ZDBtZHoyam54dzJpcmhjbGQifQ.sSARvB_c2YPJDTsXNPC2jQ' 
+        });
+        this.map.resize();
+
+        this.map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right');
+        this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+        const geolocate = new mapboxgl.GeolocateControl({
+            fitBoundsOptions: {
+                maxZoom: 4.5
+            },
+            positionOptions: {
+                enableHighAccuracy: true,
+            },
+            trackUserLocation: true
+        });
+        this.map.addControl(geolocate, 'bottom-right');
+
+        console.log("Map loaded");
+    }
+
+    // Use optional chaining to safely access this.map
+    this.map?.on('move', () => {
+        const { lng, lat } = this.map!.getCenter(); 
+        const sw = this.map!.getBounds().getSouthWest();
+        const ne = this.map!.getBounds().getNorthEast();
+
+        const isOutsideBounds =
+            lng < philippinesBounds[0][0] || 
+            lng > philippinesBounds[1][0] || 
+            lat < philippinesBounds[0][1] || 
+            lat > philippinesBounds[1][1];   
+
+        if (isOutsideBounds) {
+           
+            const newLng = Math.min(Math.max(lng, philippinesBounds[0][0]), philippinesBounds[1][0]);
+            const newLat = Math.min(Math.max(lat, philippinesBounds[0][1]), philippinesBounds[1][1]);
+            this.map!.setCenter([newLng, newLat]); 
+        }
+    }); 
   }
 
   async refreshpage() {
