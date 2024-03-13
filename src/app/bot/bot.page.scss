@@ -1,0 +1,45 @@
+page-bot {
+
+    ion-header::after, [tabsPlacement="top"] > ion-tabbar::after, ion-footer::before, [tabsPlacement="bottom"] > ion-tabbar::before {
+      img {
+        height: 50vh;
+        width: auto;
+        margin: auto;
+        display: block;
+      }
+  
+      .fullheight {
+        height: 100%;
+      }
+      
+      .xc {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+  
+      .toolbar.no-border, .navbar.no-border {
+        .toolbar-background {
+          border: 0;
+        }
+      }
+    }
+  }
+  
+  .quakeybot_dark {
+    color: #222;
+  }
+  
+  #twitterlogo {
+    float: right;
+  }
+  
+  .sourcetitle {
+    float: left;
+  }
+  
+  .quakeybot_header {
+    border-bottom-style: solid;
+    border-bottom-color: lightgray;
+    border-bottom-width: 1px;
+  }

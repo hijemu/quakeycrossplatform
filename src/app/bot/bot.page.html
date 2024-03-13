@@ -1,16 +1,38 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header class="ion-no-border">
+  <!-- Do not edit header titles here, see main.html -->
+  <ion-toolbar class="ion-no-border">
     <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-    <ion-title>bot</ion-title>
+      <ion-button (click)="showAlert()" fill="clear">
+        <ion-icon name="information-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">bot</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="loadBot2()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card *ngFor="let bot of bots; let i = index">
+    <ion-card-header class="quakeybot_header">
+      <ion-card-title>
+        <ion-avatar slot="start">
+          <img [src]="bot.userimg">
+        </ion-avatar>
+        <ion-label class="quakeybot_dark sourcetitle">{{ bot.Twitter_user }}</ion-label>
+        <ion-icon name="logo-twitter" slot="end" color="twitter"></ion-icon>
+        <br/>
+        <ion-label class="sourcetitle"><i style="color: darkgrey;">{{ bot.Source }}</i></ion-label>
+      </ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content style="white-space: pre-line; background: #f9f7f7;">
+      <p [innerHTML]="linkify(bot.Text)"></p>
+    </ion-card-content>
+  </ion-card>
+  
+  <div *ngIf="!bots?.length" class="fullheight xc">
+    <img src="assets/no_data.jpg">
+  </div>
+  

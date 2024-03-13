@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing'; // Import async
+
 import { BotPage } from './bot.page';
 
 describe('BotPage', () => {
@@ -6,9 +7,13 @@ describe('BotPage', () => {
   let fixture: ComponentFixture<BotPage>;
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(BotPage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    TestBed.configureTestingModule({
+      declarations: [BotPage]
+    }).compileComponents().then(() => { 
+      fixture = TestBed.createComponent(BotPage);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
   }));
 
   it('should create', () => {
