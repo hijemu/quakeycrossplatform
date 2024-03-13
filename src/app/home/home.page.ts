@@ -175,7 +175,7 @@ export class HomePage implements OnInit {
   
   fetchEarthquakeData() {
     console.log("fetch Earthquake Data is called");
-    let url = "https://quakey.moodlearning.com/twitter/index.php";
+    let url = "http://localhost/earthquake_fetcher_api/index.php";
     this.http.get(url).subscribe(
         (data: any) => {
             this.earthquake_data = data;
