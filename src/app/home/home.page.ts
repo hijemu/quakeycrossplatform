@@ -25,7 +25,7 @@ export class HomePage implements OnInit {
     maploaded = false;
     current_location:any = null;
     data: any;
-    accessToken = 'pk.eyJ1IjoiaGlqZW11IiwiYSI6ImNscmhja2U5ZDBtZHoyam54dzJpcmhjbGQifQ.sSARvB_c2YPJDTsXNPC2jQ';
+    accessToken = 'sk.eyJ1IjoiaGlqZW11IiwiYSI6ImNsdG5zdmNxdzBhYmgyaW1wZmgxZGs4N3MifQ.Xv3ZcEeVelSzPjO_jS3aNQ';
 
     geoAddress: any;
     geoLatitude: any;
@@ -174,16 +174,14 @@ export class HomePage implements OnInit {
   
   
   fetchEarthquakeData() {
-    console.log("fetch Earthquake Data is called");
-    let url = "http://localhost/earthquake_fetcher_api/index.php";
+    let url = "http://208.87.132.134/earthquake-rest-api/public/earthquake";
     this.http.get(url).subscribe(
         (data: any) => {
-            this.earthquake_data = data;
-            // Check if this.map is not null before calling addmarkers
-            if (this.map !== null) {
-                this.addmarkers(this.earthquake_data, this.map);
+            if (data && data.earthquake_data && Array.isArray(data.earthquake_data)) {
+                this.earthquake_data = data.earthquake_data;
+                this.processEarthquakeData(this.earthquake_data);
             } else {
-                console.error('Map is null. Unable to add markers.');
+                console.error('Error: earthquake data format is invalid');
             }
         },
         (error) => {
@@ -192,74 +190,83 @@ export class HomePage implements OnInit {
     );
 }
 
-  addmarkers(earthquake: any, map: mapboxgl.Map) {
-    if (earthquake) {
-        let geojson: any;
+  processEarthquakeData(earthquakeData: any[]) {
 
-        earthquake.forEach(function (eqdata: any) {
-            geojson = {
-                'type': 'FeatureCollection',
-                'features': [
-                    {
-                        'type': 'Feature',
-                        'properties': {
-                            'message': 'Foo',
-                            'iconSize': [100, 100]
-                        },
-                        'geometry': {
-                            'type': 'Point',
-                            'coordinates': [eqdata.LongiTude, eqdata.Latitude]
-                        }
-                    }]
-            };
+  earthquakeData.sort((a, b) => new Date(b.date_and_time).getTime() - new Date(a.date_and_time).getTime());
 
-            // add markers to map
-            geojson.features.forEach(function (marker: any) {
-                // create a DOM element for the marker
-                let el = document.createElement('div');
-                el.className = 'marker';
+  const mostRecentEarthquakes = earthquakeData.slice(0, 4);
+  
+  console.log('Four most recent earthquakes:', mostRecentEarthquakes);
 
-                let url: string = 'url(https://quakey.moodlearning.com/assets/intensity/';
-
-                if (eqdata.Magnitude < 3.0)
-                    url += 'intensity2.png';
-                else if (eqdata.Magnitude >= 3.0 && eqdata.Magnitude < 4.0)
-                    url += 'intensity3.png';
-                else if (eqdata.Magnitude >= 4.0 && eqdata.Magnitude < 5.0)
-                    url += 'intensity4.png';
-                else if (eqdata.Magnitude >= 5.0 && eqdata.Magnitude < 6.0)
-                    url += 'intensity5.png';
-                else
-                    url += 'intensity6.png';
-
-                el.style.backgroundImage = url;
-                el.style.width = marker.properties.iconSize[0] + 'px';
-                el.style.height = marker.properties.iconSize[1] + 'px';
-
-                let popup = new mapboxgl.Popup()
-                    .setHTML("<p><a href='"
-                        + eqdata.link + "'><img src='" + eqdata.link + "'></img></a></p>" +
-                        "<div style='color:#aa2929;'>" +
-                        "<p> <ion-icon name='pin'></ion-icon> <b>Location: </b>" + eqdata.Location + "</p>" +
-                        "<p> <ion-icon name='time'></ion-icon> <b>Time</b>:" + eqdata.DateAndTime + "</p>" +
-                        "<p> <ion-icon name='pulse'></ion-icon><b>Magnitude </b>:" + eqdata.Magnitude + "</p>" +
-                        "<p>  <ion-icon name='wifi' md='md-wifi'></ion-icon><b>Depth</b>:" + eqdata.Depth + "</p>" +
-                        "</div>"
-                    );
-
-                // add marker to map
-                new mapboxgl.Marker(el)
-                    .setLngLat(marker.geometry.coordinates)
-                    .setPopup(popup)
-                    .addTo(map);
-            });
-
-
-        });
-    } else {
-        console.error('Earthquake data is null or undefined.');
-    }
+  this.addmarkers(mostRecentEarthquakes, this.map);
 }
+
+  addmarkers(earthquakeData: any[], map: mapboxgl.Map | null) {
+  if (!map) {
+    console.error('Error: Map is null');
+    return;
+  }
+
+  if (!earthquakeData || earthquakeData.length === 0) {
+    console.error('Error: earthquakeData is empty or undefined');
+    return;
+  }
+
+
+  const recentEarthquakes = earthquakeData.slice(0, 4);
+
+  recentEarthquakes.forEach((eqdata) => {
+    const { latitude, longitude, magnitude } = eqdata;
+
+
+    let markerUrl = '';
+    if (magnitude < 3.0) {
+      markerUrl = 'https://quakey.moodlearning.com/assets/intensity/intensity2.png';
+    } else if (magnitude < 4.0) {
+      markerUrl = 'https://quakey.moodlearning.com/assets/intensity/intensity3.png';
+    } else if (magnitude < 5.0) {
+      markerUrl = 'https://quakey.moodlearning.com/assets/intensity/intensity4.png';
+    } else if (magnitude < 6.0) {
+      markerUrl = 'https://quakey.moodlearning.com/assets/intensity/intensity5.png';
+    } else {
+      markerUrl = 'https://quakey.moodlearning.com/assets/intensity/intensity6.png';
+    }
+
+    const popupContent = `
+    <div>
+      <p style="color: red;"><a href="${eqdata.link}" style="color: red;">Link</a></p>
+      <p style="color: black;">Location: ${eqdata.location}</p>
+      <p style="color: black;">Time: ${eqdata.date_and_time}</p>
+      <p style="color: black;">Magnitude: ${eqdata.magnitude}</p>
+      <p style="color: black;">Depth: ${eqdata.depth}</p>
+    </div>
+  `;
+
+    const el = document.createElement('div');
+    el.className = 'marker';
+    el.style.backgroundImage = `url('${markerUrl}')`;
+    el.style.width = '100px';
+    el.style.height = '100px';
+
+    const popup = new mapboxgl.Popup().setHTML(popupContent);
+
+    new mapboxgl.Marker(el)
+      .setLngLat([parseFloat(longitude), parseFloat(latitude)])
+      .setPopup(popup)
+      .addTo(map);
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
 
   get_kmdistance(current_location: any){
 
