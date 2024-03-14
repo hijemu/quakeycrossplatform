@@ -43,3 +43,10 @@ page-bot {
     border-bottom-color: lightgray;
     border-bottom-width: 1px;
   }
+
+  .custom-card {
+    background-color: #ffffff; /* White background color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle elevation effect */
+    margin-bottom: 20px; /* Add some margin between cards */
+  }
