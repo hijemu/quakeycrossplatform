@@ -309,8 +309,8 @@ export class HomePage implements OnInit {
   buildMap() {
     console.log("Started building map");
     const philippinesBounds: [[number, number], [number, number]] = [
-        [115.859375, 4.389385], // Southwest bounds of the Philippines
-        [126.904764, 21.100406] // Northeast bounds of the Philippines
+        [116.1, 4.4], // Southwest bounds of the Philippines
+        [128, 21.9] // Northeast bounds of the Philippines
     ];
 
     if (!this.map) {
