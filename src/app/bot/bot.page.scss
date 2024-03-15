@@ -1,52 +1,71 @@
-page-bot {
+ion-content {
+  --background: #424743;
+}
 
-    ion-header::after, [tabsPlacement="top"] > ion-tabbar::after, ion-footer::before, [tabsPlacement="bottom"] > ion-tabbar::before {
-      img {
-        height: 50vh;
-        width: auto;
-        margin: auto;
-        display: block;
-      }
-  
-      .fullheight {
-        height: 100%;
-      }
-      
-      .xc {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-  
-      .toolbar.no-border, .navbar.no-border {
-        .toolbar-background {
-          border: 0;
-        }
+  ion-header::after, [tabsPlacement="top"] > ion-tabbar::after, ion-footer::before, [tabsPlacement="bottom"] > ion-tabbar::before {
+    img {
+      height: 50vh;
+      width: auto;
+      margin: auto;
+      display: block;
+    }
+
+    .fullheight {
+      height: 100%;
+    }
+    
+    .xc {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toolbar.no-border, .navbar.no-border {
+      .toolbar-background {
+        border: 0;
       }
     }
   }
-  
-  .quakeybot_dark {
-    color: #222;
-  }
-  
-  #twitterlogo {
-    float: right;
-  }
-  
-  .sourcetitle {
-    float: left;
-  }
-  
-  .quakeybot_header {
-    border-bottom-style: solid;
-    border-bottom-color: lightgray;
-    border-bottom-width: 1px;
+
+    .custom-card {
+    background-color: #eae4c4; 
+    border-radius: 15px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 20px; 
+    overflow: hidden; 
+    transition: transform 0.3s ease-in-out; 
+     text-align: center; 
   }
 
-  .custom-card {
-    background-color: #ffffff; /* White background color */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle elevation effect */
-    margin-bottom: 20px; /* Add some margin between cards */
+  .custom-card:hover {
+    transform: translateY(-5px); 
+  }
+
+  .card-content {
+    padding: 20px; 
+  }
+
+  .date-time {
+    color: #3b7b7a;  
+    font-size: 18px; 
+    font-weight: bold; 
+    margin-bottom: 10px;
+    text-align: center; 
+  }
+
+  .info-text {
+    color: #9bb5a1; 
+    font-size: 16px; 
+    margin-bottom: 10px; 
+  }
+
+  .link-text {
+    color: #c94c4b; 
+    font-weight: bold; 
+    text-decoration: none;
+    text-align: center; 
+  }
+
+  .link-text:hover {
+    text-decoration: underline; 
   }
