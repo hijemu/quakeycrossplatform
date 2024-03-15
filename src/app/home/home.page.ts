@@ -174,7 +174,7 @@ export class HomePage implements OnInit {
   
   
   fetchEarthquakeData() {
-    let url = "http://208.87.132.134/earthquake-rest-api/public/earthquake";
+    let url = "https://quakey-api.moodlearning.com/earthquake";
     this.http.get(url).subscribe(
         (data: any) => {
             if (data && data.earthquake_data && Array.isArray(data.earthquake_data)) {

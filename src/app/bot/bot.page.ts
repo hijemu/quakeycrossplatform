@@ -3,7 +3,7 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 
-const apiUrl = "http://208.87.132.134/earthquake-rest-api/public/earthquake";
+const apiUrl = "https://quakey-api.moodlearning.com/earthquake";
 
 @Component({
   selector: 'app-bot',
@@ -32,8 +32,6 @@ export class BotPage {
 
   async loadBot2() {
     this.showLoading();
-  
-    const apiUrl = "http://208.87.132.134/earthquake-rest-api/public/earthquake";
   
     this.http.get(apiUrl).subscribe(
       (data: any) => {
