@@ -322,12 +322,14 @@ export class HomePage implements OnInit {
             zoom: 5, 
             center: philippinesCenter,
             maxBounds: philippinesBounds, // Restrict the map to the bounds of the Philippines
+            pitch: 0, 
+            bearing: 0, 
             accessToken: 'pk.eyJ1IjoiaGlqZW11IiwiYSI6ImNscmhja2U5ZDBtZHoyam54dzJpcmhjbGQifQ.sSARvB_c2YPJDTsXNPC2jQ' 
         });
         this.map.resize();
 
         this.map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right');
-        this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+        this.map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'bottom-right');
         const geolocate = new mapboxgl.GeolocateControl({
             fitBoundsOptions: {
                 maxZoom: 4.5
@@ -338,6 +340,13 @@ export class HomePage implements OnInit {
             trackUserLocation: true
         });
         this.map.addControl(geolocate, 'bottom-right');
+
+        this.map.on('mousedown', (e) => {
+          if (e.originalEvent.ctrlKey || e.originalEvent.button === 2) {
+              e.preventDefault();
+              return;
+          }
+      });
 
         console.log("Map loaded");
     }
@@ -361,7 +370,8 @@ export class HomePage implements OnInit {
             this.map!.setCenter([newLng, newLat]); 
         }
     }); 
-  }
+}
+
 
   async refreshpage() {
     const loading = await this.loadingCtrl.create({
