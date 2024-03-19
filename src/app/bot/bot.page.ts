@@ -63,21 +63,9 @@ export class BotPage {
     await this.loading.present();
   }
 
-  async showAlert() {
-    const alert = await this.alertCtrl.create({
-      header: 'Help',
-      message: 'Social media chatters on recent Philippine earthquakes',
-      buttons: ['OK'],
-      cssClass: 'my-alert',
-    });
-    await alert.present();
-  }
-
-
   redirectTo(link: string) {
     window.open(link, '_blank'); 
   }
-
 
   linkify(text: string) { 
     if (!text) return ''; 
