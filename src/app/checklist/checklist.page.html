@@ -11,16 +11,16 @@
   <ion-list>
     <ion-list *ngIf="checklists && checklists.length > 0">
       <ion-item *ngFor="let checklist of checklists; let i = index" lines="none" style="padding-left: 16px;">
-        <ion-checkbox slot="start" [(ngModel)]="checklist.isChecked" (ionChange)="updateCheck(i)"></ion-checkbox>
+        <ion-checkbox slot="start" [(ngModel)]="checklist.isChecked" (ionChange)="updateCheck(i)" aria-label="mainCheckbox"></ion-checkbox>
         <ion-label>{{ checklist.val }}
-        <ion-button color="primary" slot="end" (click)="editItem(i)"><ion-icon name="create"></ion-icon></ion-button>
-        <ion-button color="primary" slot="end" (click)="addFood(i)"><ion-icon name="add"></ion-icon></ion-button>
-        <ion-button color="danger" slot="end" (click)="deleteConfirm(i)"><ion-icon name="trash"></ion-icon></ion-button>
-      </ion-label>
+          <ion-button color="primary" slot="end" (click)="editItem(i)"><ion-icon name="create"></ion-icon></ion-button>
+          <ion-button color="primary" slot="end" (click)="addFood(i)"><ion-icon name="add"></ion-icon></ion-button>
+          <ion-button color="danger" slot="end" (click)="deleteConfirm(i)"><ion-icon name="trash"></ion-icon></ion-button>
+        </ion-label>
         <ion-list *ngIf="checklist.foods && checklist.foods.length > 0">
           <ion-item *ngFor="let food of checklist.foods; let j = index">
             <ion-label>{{ food.name }}</ion-label>
-            <ion-checkbox slot="start" [(ngModel)]="food.isChecked" (ionChange)="updateFoodCheck(i, j)"></ion-checkbox>
+            <ion-checkbox slot="start" [(ngModel)]="food.isChecked" (ionChange)="updateFoodCheck(i, j)" aria-label="itemCheckbox"></ion-checkbox>
             <ion-button color="primary" slot="end" (click)="editFood(i, j)"><ion-icon name="create"></ion-icon></ion-button>
             <ion-button color="danger" slot="end" (click)="deleteFoodConfirm(i, j)"><ion-icon name="trash"></ion-icon></ion-button>
           </ion-item>
@@ -28,7 +28,6 @@
       </ion-item>
     </ion-list>
   </ion-list>
-    
 
   <ion-fab vertical="bottom" horizontal="end">
     <ion-fab-button color="primary" (click)="addItem()">
