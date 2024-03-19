@@ -34,7 +34,6 @@ ion-content {
     margin-bottom: 20px; 
     overflow: hidden; 
     transition: transform 0.3s ease-in-out; 
-     text-align: center; 
   }
 
   .custom-card:hover {
@@ -58,14 +57,15 @@ ion-content {
     font-size: 16px; 
     margin-bottom: 10px; 
   }
-
-  .link-text {
-    color: #c94c4b; 
-    font-weight: bold; 
-    text-decoration: none;
-    text-align: center; 
+  
+  .magnitude-text {
+    font-size: 16px; 
+    color: #58522d; 
   }
 
-  .link-text:hover {
-    text-decoration: underline; 
+  .eqInfo-text {
+    font-size: 14px; 
+    color: #58522d; 
   }
+
+

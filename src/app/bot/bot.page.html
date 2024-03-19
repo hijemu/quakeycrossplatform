@@ -17,17 +17,16 @@
   <ion-grid>
     <ion-row *ngFor="let bot of [bot1, bot2, bot3, bot4]">
       <ion-col size="12">
-        <ion-card class="custom-card" *ngIf="bot">
+        <ion-card class="custom-card" *ngIf="bot" (click)="redirectTo(bot.link)">
           <ion-card-header>
             <ion-card-title class="date-time">{{ bot.date_and_time }}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <p>Magnitude: {{ bot.magnitude }}</p>
-            <p>Depth: {{ bot.depth }}</p>
-            <p>Location: {{ bot.location }}</p>
-            <p>Latitude: {{ bot.latitude }}</p>
-            <p>Longitude: {{ bot.longitude }}</p>
-            <p class="link-text">Link: <a [href]="bot.link">{{ bot.link }}</a></p>
+            <p class="magnitude-text">Magnitude: {{ bot.magnitude }}</p>
+            <p class="eqInfo-text">Depth: {{ bot.depth }}</p>
+            <p class="eqInfo-text">Location: {{ bot.location }}</p>
+            <p class="eqInfo-text">Latitude: {{ bot.latitude }}</p>
+            <p class="eqInfo-text">Longitude: {{ bot.longitude }}</p>
           </ion-card-content>
         </ion-card>
       </ion-col>

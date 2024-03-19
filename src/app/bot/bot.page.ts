@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin } from 'rxjs';
 
 const apiUrl = "https://quakey-api.moodlearning.com/earthquake";
 
@@ -57,10 +56,6 @@ export class BotPage {
     );
   }
   
-  
-
-  
-
   async showLoading() {
     this.loading = await this.loadingCtrl.create({
       message: 'Please wait...',
@@ -77,6 +72,12 @@ export class BotPage {
     });
     await alert.present();
   }
+
+
+  redirectTo(link: string) {
+    window.open(link, '_blank'); 
+  }
+
 
   linkify(text: string) { 
     if (!text) return ''; 
