@@ -1,12 +1,31 @@
 ion-content {
-    --background: #424743; 
-  }
+  --background: #424743; 
+}
 
-  ion-item {
-    --inner-padding-end: 0;
-  }
-  
-  ion-checkbox {
-    --padding-start: 16px;
-  }
-  
+ion-item {
+  --inner-padding-end: 0;
+}
+
+ion-checkbox {
+  --padding-start: 16px;
+}
+
+.primary-title {
+  display: flex;
+}
+
+.yeet {
+  color: #de2900;
+  font-size: 16px;
+}
+
+.food-name {
+  /* gray #b9b1b1 , red #FF5733*/
+  color: #b9b1b1; 
+  font-size: 14px;
+}
+
+.checklist_buttons {
+  margin: 0 10px; 
+}
+
