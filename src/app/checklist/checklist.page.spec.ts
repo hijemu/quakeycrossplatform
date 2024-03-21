@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing'; // Import async
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing'; 
 
 import { ChecklistPage } from './checklist.page';
 
@@ -6,7 +6,7 @@ describe('ChecklistPage', () => {
   let component: ChecklistPage;
   let fixture: ComponentFixture<ChecklistPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => { 
     TestBed.configureTestingModule({
       declarations: [ChecklistPage]
     })
