@@ -277,35 +277,40 @@ export class ChecklistPage implements OnInit {
   editFood(i: number, j: number): void {
     this.storage.get('checklist').then(valueStr => {
       let value = valueStr;
-      const alert1 = this.alertCtrl.create({
-        header: 'Edit Item',
-        inputs: [
-          {
-            name: 'moreItem',
-            value: value[i].foods[j].name
-          }
-        ],
-        buttons: [
-          {
-            text: 'Cancel',
-            role: 'cancel',
-            handler: () => {
-              console.log('Cancel clicked');
+      if (value && value[i]?.foods && value[i].foods[j]) {
+        const alert1 = this.alertCtrl.create({
+          header: 'Edit Item',
+          inputs: [
+            {
+              name: 'moreItem',
+              value: value[i].foods[j].name
             }
-          },
-          {
-            text: 'Update',
-            handler: async (data) => {
-              if (data.fooditem === "") {
-                alert("Please input change");
-              } else {
-                await this.editFoodSubmit(i, j, data.fooditem);
+          ],
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              handler: () => {
+                console.log('Cancel clicked');
+              }
+            },
+            {
+              text: 'Update',
+              handler: async (data) => {
+                if (data.moreItem.trim() === "") {
+                  alert("Please input change");
+                } else {
+                  value[i].foods[j].name = data.moreItem.trim(); 
+                  await this.storage.set('checklist', value);
+                  this.checklists = value;
+                  alert("Item Updated!");
+                }
               }
             }
-          }
-        ]
-      });
-      alert1.then(alert => alert.present());
+          ]
+        });
+        alert1.then(alert => alert.present());
+      }
     });
   }
 
