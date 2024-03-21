@@ -1,0 +1,28 @@
+ion-content {
+    --background: #424743; 
+  }
+
+.inten img{
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: block;
+}
+
+.inten1 {
+    position: relative;
+    text-align: center;
+  }
+  
+  .txt_inten { 
+    left: 50%;
+    position: relative;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+  }
+  
