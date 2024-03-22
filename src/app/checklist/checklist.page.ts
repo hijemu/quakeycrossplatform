@@ -81,7 +81,9 @@ export class ChecklistPage implements OnInit {
         {
           text: 'Add',
           handler: (data) => {
-            if (data.checklistitem.trim() !== '') {
+            if (data.checklistitem.trim().length > 12) {
+              alert('Exceeded character limit of 12');
+            } else if (data.checklistitem.trim() !== '') {
               this.addChecklist(data.checklistitem.trim());
             }
           }
@@ -89,7 +91,7 @@ export class ChecklistPage implements OnInit {
       ]
     }).then(alert => alert.present());
   }
-
+  
   editItem(i: number): void {
     this.storage.get('checklist').then(valueStr => {
       let value = valueStr;
@@ -112,7 +114,9 @@ export class ChecklistPage implements OnInit {
           {
             text: 'Update',
             handler: (data) => {
-              if (data.checklistitem === '') {
+              if (data.checklistitem.trim().length > 12) {
+                alert('Exceeded character limit of 12');
+              } else if (data.checklistitem === '') {
                 alert('Please input an item');
               } else {
                 this.editItemSubmit(i, data.checklistitem);
@@ -219,7 +223,9 @@ export class ChecklistPage implements OnInit {
         {
           text: 'Add',
           handler: (data) => {
-            if (data.moreItem.trim() !== '') {
+            if (data.moreItem.trim().length > 20) {
+              alert('Exceeded character limit of 20');
+            } else if (data.moreItem.trim() !== '') {
               this.addFoodSubmit(index, data.moreItem.trim());
             }
           }
@@ -297,7 +303,9 @@ export class ChecklistPage implements OnInit {
             {
               text: 'Update',
               handler: async (data) => {
-                if (data.moreItem.trim() === "") {
+                if (data.moreItem.trim().length > 20) {
+                  alert('Exceeded character limit of 20');
+                } else if (data.moreItem.trim() === "") {
                   alert("Please input change");
                 } else {
                   value[i].foods[j].name = data.moreItem.trim(); 
