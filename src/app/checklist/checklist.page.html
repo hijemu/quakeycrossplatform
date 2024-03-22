@@ -1,39 +1,44 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-      <ion-title>Checklist</ion-title>
-      <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-    <ion-list class="checklist-container" >
-      <ion-list *ngIf="checklists && checklists.length > 0">
-          <ion-item *ngFor="let checklist of checklists; let i = index" lines="none" style="display: grid; margin: 1rem;">
-              
-              <ion-label class="primary-title">
-                  <ion-checkbox slot="start" [(ngModel)]="checklist.isChecked" (ionChange)="updateCheck(i)" aria-label="mainCheckbox" style="margin-right: 10px;"></ion-checkbox>
-                  <p class="yeet">{{ checklist.val }}</p>
-                  <ion-button class="checklist_buttons" color="primary" slot="end" (click)="editItem(i)"><ion-icon name="create"></ion-icon></ion-button>
-                  <ion-button class="checklist_buttons" color="primary" slot="end" (click)="addFood(i)"><ion-icon name="add"></ion-icon></ion-button>
-                  <ion-button class="checklist_buttons" color="danger" slot="end" (click)="deleteConfirm(i)"><ion-icon name="trash"></ion-icon></ion-button>
-              </ion-label>
-              <ion-list *ngIf="checklist.foods && checklist.foods.length > 0">
-                  <ion-item *ngFor="let food of checklist.foods; let j = index" style="margin-left: 32px;">
-                      <ion-label class="food-name">{{ food.name }}</ion-label>
-                      <ion-checkbox slot="start" [(ngModel)]="food.isChecked" (ionChange)="updateFoodCheck(i, j)" aria-label="itemCheckbox" style="margin-right: 10px;"></ion-checkbox>
-                      <ion-button class="checklist_buttons secondary-buttons" color="primary" slot="end" (click)="editFood(i, j)"><ion-icon name="create"></ion-icon></ion-button>
-                      <ion-button class="checklist_buttons secondary-buttons" color="danger" slot="end" (click)="deleteFoodConfirm(i, j)"><ion-icon name="trash"></ion-icon></ion-button>
-                  </ion-item>
-              </ion-list>
-          </ion-item>
+    <ion-toolbar>
+        <ion-title>Checklist</ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <ng-container *ngIf="checklists && checklists.length > 0; else noChecklist">
+      <ion-list>
+        <ion-list *ngFor="let checklist of checklists; let i = index" lines="none" style="display: grid; margin: 1rem;">
+          <ion-label class="primary-title">
+              <ion-checkbox slot="start" [(ngModel)]="checklist.isChecked" (ionChange)="updateCheck(i)" aria-label="mainCheckbox" style="margin-right: 10px;"></ion-checkbox>
+              <p class="yeet">{{ checklist.val }}</p>
+              <ion-button class="checklist_buttons" color="primary" slot="end" (click)="editItem(i)"><ion-icon name="create"></ion-icon></ion-button>
+              <ion-button class="checklist_buttons" color="primary" slot="end" (click)="addFood(i)"><ion-icon name="add"></ion-icon></ion-button>
+              <ion-button class="checklist_buttons" color="danger" slot="end" (click)="deleteConfirm(i)"><ion-icon name="trash"></ion-icon></ion-button>
+          </ion-label>
+          <ion-list *ngIf="checklist.foods && checklist.foods.length > 0">
+              <ion-item *ngFor="let food of checklist.foods; let j = index" style="margin-left: 32px;">
+                  <ion-label class="food-name">{{ food.name }}</ion-label>
+                  <ion-checkbox slot="start" [(ngModel)]="food.isChecked" (ionChange)="updateFoodCheck(i, j)" aria-label="itemCheckbox" style="margin-right: 10px;"></ion-checkbox>
+                  <ion-button class="checklist_buttons secondary-buttons" color="primary" slot="end" (click)="editFood(i, j)"><ion-icon name="create"></ion-icon></ion-button>
+                  <ion-button class="checklist_buttons secondary-buttons" color="danger" slot="end" (click)="deleteFoodConfirm(i, j)"><ion-icon name="trash"></ion-icon></ion-button>
+              </ion-item>
+          </ion-list>
+        </ion-list>
       </ion-list>
-  </ion-list>
-
-  <ion-fab vertical="bottom" horizontal="end">
+    </ng-container>
+  
+    <ng-template #noChecklist>
+      <div class="no-checklist-message">
+        <p>Add a Checklist here</p>
+      </div>
+    </ng-template>
+  
+    <ion-fab vertical="bottom" horizontal="end">
       <ion-fab-button color="primary" (click)="addItem()">
-          <ion-icon name="add"></ion-icon>
+        <ion-icon name="add"></ion-icon>
       </ion-fab-button>
-  </ion-fab>
-</ion-content>
+    </ion-fab>
+  </ion-content>
