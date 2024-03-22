@@ -2,6 +2,14 @@ ion-content {
   --background: #424743; 
 }
 
+ion-header {
+  --ion-toolbar-background: #424743;
+}
+
+.checklist-container {
+  background-color: #2a2a2a;
+}
+
 ion-item {
   --inner-padding-end: 0;
 }

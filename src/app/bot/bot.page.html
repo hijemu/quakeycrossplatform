@@ -1,12 +1,11 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar class="ion-no-border">
+<ion-header [translucent]="true">
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title class="quakeybot_header">Recent Earthquakes</ion-title>
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    <ion-title>Recent Earthquakes</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="loadBot2()">
     <ion-refresher-content></ion-refresher-content>

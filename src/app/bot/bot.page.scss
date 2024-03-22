@@ -2,6 +2,10 @@ ion-content {
   --background: #424743;
 }
 
+ion-header {
+  --ion-toolbar-background: #424743;
+}
+
   ion-header::after, [tabsPlacement="top"] > ion-tabbar::after, ion-footer::before, [tabsPlacement="bottom"] > ion-tabbar::before {
     img {
       height: 50vh;
