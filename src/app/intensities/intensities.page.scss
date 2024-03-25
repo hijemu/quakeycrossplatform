@@ -1,5 +1,5 @@
 ion-content {
-    --background: #424743; 
+    --background: linear-gradient(to right, #e5af9e, #eaa198); 
   }
 
   ion-header {
@@ -13,6 +13,8 @@ ion-content {
     margin-top: 30px;
     margin-bottom: 30px;
     display: block;
+    box-shadow: 25px 20px rgba(0,0,0, .15);
+    border-radius: 40px;
 }
 
 .inten1 {
@@ -27,6 +29,8 @@ ion-content {
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border-radius: 20px;
-    padding: 10px 20px;
+    padding: 10px 15px;
+    max-width: 90%;
+    box-shadow:10px 20px rgba(0,0,0, 0.25);
   }
   
