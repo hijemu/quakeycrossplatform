@@ -17,25 +17,22 @@ ion-item {
 
 ion-checkbox {
   --padding-start: 16px;
-}
-
-.primary-title {
-  display: flex;
+  margin: 0 10px; 
 }
 
 .yeet {
   color: #de2900;
   font-size: 16px;
+  display: block;
+
 }
 
 .food-name {
   /* gray #b9b1b1 , red #FF5733*/
   color: #b9b1b1; 
   font-size: 14px;
-}
+  display: block;
 
-.checklist_buttons {
-  margin: 0 10px; 
 }
 
 .no-checklist-message {

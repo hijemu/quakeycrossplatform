@@ -223,8 +223,8 @@ export class ChecklistPage implements OnInit {
         {
           text: 'Add',
           handler: (data) => {
-            if (data.moreItem.trim().length > 20) {
-              alert('Exceeded character limit of 20');
+            if (data.moreItem.trim().length > 14) {
+              alert('Exceeded character limit of 14');
             } else if (data.moreItem.trim() !== '') {
               this.addFoodSubmit(index, data.moreItem.trim());
             }
@@ -303,8 +303,8 @@ export class ChecklistPage implements OnInit {
             {
               text: 'Update',
               handler: async (data) => {
-                if (data.moreItem.trim().length > 20) {
-                  alert('Exceeded character limit of 20');
+                if (data.moreItem.trim().length > 12) {
+                  alert('Exceeded character limit of 12');
                 } else if (data.moreItem.trim() === "") {
                   alert("Please input change");
                 } else {
