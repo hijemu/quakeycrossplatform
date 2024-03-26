@@ -1,10 +1,10 @@
 ion-content {
-  --background: #424743; 
+  --background:#4d515d; 
   position: relative;
 }
 
 ion-header {
-  --ion-toolbar-background: #424743;
+  --ion-toolbar-background: #4bb5a2;
 }
 
 .checklist-container {
@@ -21,7 +21,7 @@ ion-checkbox {
 }
 
 .yeet {
-  color: #de2900;
+  color: #4bb5a2;
   font-size: 16px;
   display: block;
 
@@ -29,7 +29,7 @@ ion-checkbox {
 
 .food-name {
   /* gray #b9b1b1 , red #FF5733*/
-  color: #b9b1b1; 
+  color: #ededed; 
   font-size: 14px;
   display: block;
 
@@ -48,4 +48,11 @@ ion-checkbox {
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+.list-md {
+  background:	#4d4d4f;
+  --ion-item-background: #525252;
+  border-radius: 25px; 
+ 
 }

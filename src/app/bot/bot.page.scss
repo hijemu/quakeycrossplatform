@@ -1,9 +1,9 @@
 ion-content {
-  --background: #424743;
+  --background: #4d515d; 
 }
 
 ion-header {
-  --ion-toolbar-background: #424743;
+  --ion-toolbar-background: #4bb5a2;
 }
 
   ion-header::after, [tabsPlacement="top"] > ion-tabbar::after, ion-footer::before, [tabsPlacement="bottom"] > ion-tabbar::before {
@@ -49,7 +49,7 @@ ion-header {
   }
 
   .date-time {
-    color: #3b7b7a;  
+    color: #4bb5a2;  
     font-size: 18px; 
     font-weight: bold; 
     margin-bottom: 10px;
