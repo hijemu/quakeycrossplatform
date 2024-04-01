@@ -1,10 +1,7 @@
-import { Component, OnInit, resolveForwardRef, NgZone } from '@angular/core';
-import { Capacitor } from '@capacitor/core';
-import { Plugins } from '@capacitor/core';
+import { Component, OnInit} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { HttpClient } from '@angular/common/http';
 import { Geolocation } from '@capacitor/geolocation';
-import { NativeGeocoder } from '@capgo/nativegeocoder';
 import { NavController, ModalController, LoadingController, Platform } from '@ionic/angular';
 import { LocalNotifications } from '@capacitor/local-notifications';
 
@@ -39,8 +36,6 @@ export class HomePage implements OnInit {
   private modal: ModalController,
   private http: HttpClient,
   private loadingCtrl: LoadingController,
-  private ngZone: NgZone,
-  private geolocation: Geolocation,
   public platform: Platform,
   ) {}
       
@@ -354,8 +349,6 @@ export class HomePage implements OnInit {
     // Use optional chaining to safely access this.map
     this.map?.on('move', () => {
         const { lng, lat } = this.map!.getCenter(); 
-        const sw = this.map!.getBounds().getSouthWest();
-        const ne = this.map!.getBounds().getNorthEast();
 
         const isOutsideBounds =
             lng < philippinesBounds[0][0] || 
