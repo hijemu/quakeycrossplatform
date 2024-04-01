@@ -17,6 +17,8 @@
         <ion-card class="custom-card" *ngIf="bot" (click)="redirectTo(bot.link)">
           <ion-card-header>
             <ion-card-title class="date-time">{{ bot.date_and_time }}</ion-card-title>
+            <p style="text-align: center;margin-top: 0px;margin-bottom: 10px;font-size: 12px;"> 
+              Click to view earthquake information.</p>
           </ion-card-header>
           <ion-card-content>
             <p class="magnitude-text">Magnitude: {{ bot.magnitude }}</p>
