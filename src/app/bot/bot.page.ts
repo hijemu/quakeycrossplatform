@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { LoadingController} from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 
 const apiUrl = "https://quakey-api.moodlearning.com/earthquake";
@@ -22,7 +22,6 @@ export class BotPage {
   constructor(
     private http: HttpClient,
     private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
   ) {}
 
   async ionViewWillEnter() {
