@@ -28,6 +28,7 @@ export class HomePage implements OnInit {
     geoLatitude: any;
     geoLongitude: any;
     distance: any;
+    loading: any;
     
     private modalOpen:boolean = false;
 
@@ -42,6 +43,13 @@ export class HomePage implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentLocation();
+  }
+
+  async showLoading() {
+    this.loading = await this.loadingCtrl.create({
+      message: 'Loading map data...',
+    });
+    await this.loading.present();
   }
 
   isPlatformWeb(): boolean {
@@ -59,9 +67,6 @@ export class HomePage implements OnInit {
       // Handle error
     }
   }
-
-
-
 
   getCurrentLocation() {
     navigator.geolocation.getCurrentPosition(
@@ -166,9 +171,9 @@ export class HomePage implements OnInit {
     }
   }
   
-  
-  
-  fetchEarthquakeData() {
+  async fetchEarthquakeData() {
+    await this.showLoading();
+
     let url = "https://quakey-api.moodlearning.com/earthquake";
     this.http.get(url).subscribe(
         (data: any) => {
@@ -178,22 +183,23 @@ export class HomePage implements OnInit {
             } else {
                 console.error('Error: earthquake data format is invalid');
             }
+            this.loading.dismiss();
         },
         (error) => {
             console.error('Error fetching earthquake data', error);
+            this.loading.dismiss();
         }
     );
 }
 
-  processEarthquakeData(earthquakeData: any[]) {
+processEarthquakeData(earthquakeData: any[]) {
+    earthquakeData.sort((a, b) => new Date(b.date_and_time).getTime() - new Date(a.date_and_time).getTime());
 
-  earthquakeData.sort((a, b) => new Date(b.date_and_time).getTime() - new Date(a.date_and_time).getTime());
+    const mostRecentEarthquakes = earthquakeData.slice(0, 4);
 
-  const mostRecentEarthquakes = earthquakeData.slice(0, 4);
-  
-  console.log('Four most recent earthquakes:', mostRecentEarthquakes);
+    console.log('Four most recent earthquakes:', mostRecentEarthquakes);
 
-  this.addmarkers(mostRecentEarthquakes, this.map);
+    this.addmarkers(mostRecentEarthquakes, this.map);
 }
 
   addmarkers(earthquakeData: any[], map: mapboxgl.Map | null) {
@@ -251,17 +257,6 @@ export class HomePage implements OnInit {
       .addTo(map);
   });
 }
-
-
-
-
-
-
-
-
-
-
-
 
   get_kmdistance(current_location: any){
 
@@ -365,7 +360,6 @@ export class HomePage implements OnInit {
     }); 
 }
 
-
   async refreshpage() {
     const loading = await this.loadingCtrl.create({
       message: 'Refreshing data..'
@@ -384,7 +378,7 @@ export class HomePage implements OnInit {
   
   
   
-  
+
 
   localnotif(str: string) {
     LocalNotifications.schedule({
@@ -426,8 +420,4 @@ export class HomePage implements OnInit {
   
    return dist;
     }
-
-
-
-
 }
