@@ -4,4 +4,5 @@
 
   ion-header {
     --ion-toolbar-background: #4bb5a2;
+    padding-top: env(safe-area-inset-top);
   }

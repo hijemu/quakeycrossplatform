@@ -4,6 +4,10 @@ ion-content {
 
   ion-header {
     --ion-toolbar-background: #4bb5a2;
+    padding-top: env(safe-area-inset-top, 20px);
+    padding-right: env(safe-area-inset-right, 1em);
+    padding-bottom: env(safe-area-inset-bottom, 0.5vh);
+    padding-left: env(safe-area-inset-left, 1.4rem);
   }
 
 .inten img{
