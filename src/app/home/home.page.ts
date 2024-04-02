@@ -195,7 +195,7 @@ export class HomePage implements OnInit {
 processEarthquakeData(earthquakeData: any[]) {
     earthquakeData.sort((a, b) => new Date(b.date_and_time).getTime() - new Date(a.date_and_time).getTime());
 
-    const mostRecentEarthquakes = earthquakeData.slice(0, 4);
+    const mostRecentEarthquakes = earthquakeData.slice(0, 10);
 
     console.log('Four most recent earthquakes:', mostRecentEarthquakes);
 
@@ -214,7 +214,7 @@ processEarthquakeData(earthquakeData: any[]) {
   }
 
 
-  const recentEarthquakes = earthquakeData.slice(0, 4);
+  const recentEarthquakes = earthquakeData.slice(0, 10);
 
   recentEarthquakes.forEach((eqdata) => {
     const { latitude, longitude, magnitude } = eqdata;
