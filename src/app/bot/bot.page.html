@@ -12,7 +12,7 @@
   </ion-refresher>
 
   <ion-grid>
-    <ion-row *ngFor="let bot of [bot1, bot2, bot3, bot4]">
+    <ion-row *ngFor="let bot of [this.bot1, this.bot2, this.bot3, this.bot4, this.bot5, this.bot6, this.bot7, this.bot8, this.bot9, this.bot10]">
       <ion-col size="12">
         <ion-card class="custom-card" *ngIf="bot" (click)="redirectTo(bot.link)">
           <ion-card-header>

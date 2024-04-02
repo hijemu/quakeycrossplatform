@@ -18,6 +18,12 @@ export class BotPage {
   bot2: any;
   bot3: any;
   bot4: any;
+  bot5: any;
+  bot6: any;
+  bot7: any;
+  bot8: any;
+  bot9: any;
+  bot10: any;
 
   constructor(
     private http: HttpClient,
@@ -41,8 +47,14 @@ export class BotPage {
         this.bot2 = earthquakeData[1];
         this.bot3 = earthquakeData[2];
         this.bot4 = earthquakeData[3];
+        this.bot5 = earthquakeData[4];
+        this.bot6 = earthquakeData[5];
+        this.bot7 = earthquakeData[6];
+        this.bot8 = earthquakeData[7];
+        this.bot9 = earthquakeData[8];
+        this.bot10 = earthquakeData[9];
   
-        this.bots = [this.bot1, this.bot2, this.bot3, this.bot4];
+        this.bots = [this.bot1, this.bot2, this.bot3, this.bot4, this.bot5, this.bot6, this.bot7, this.bot8, this.bot9, this.bot10];
         
         console.log('Bots array:', this.bots); 
   
