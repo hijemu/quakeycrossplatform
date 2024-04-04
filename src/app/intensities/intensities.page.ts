@@ -1,16 +1,25 @@
 import { Component } from '@angular/core';
+import { Vibration } from '@ionic-native/vibration/ngx';
 
 @Component({
   selector: 'app-intensities',
   templateUrl: './intensities.page.html',
   styleUrls: ['./intensities.page.scss'],
 })
+
 export class IntensitiesPage {
 
-  constructor() { }
+  constructor(
+    private vibration: Vibration
+  ) { }
+
+  vibratePhone() {
+    this.vibration.vibrate(1000); //1000 = 1 sec
+  }
 
   handleImageClick(intensity: number, iconIndex: number) {
     console.log("Clicked on icon with intensity:", intensity);
+    this.vibratePhone();
     const icon = document.querySelectorAll('.inten')[iconIndex - 1] as HTMLElement;
     
  
@@ -46,5 +55,5 @@ export class IntensitiesPage {
       icon.style.animation = '';
     }, 3000); //3000 = 3 sec
   }
-  
+
 }
