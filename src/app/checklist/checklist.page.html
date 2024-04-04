@@ -36,9 +36,34 @@
     </div>
   </ng-template>
 
-  <ion-fab vertical="bottom" horizontal="end">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="primary" (click)="addItem()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <ion-footer>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" offset-md="3">
+          <ion-button expand="block" color="primary" (click)="shareChecklist()">
+            Share Checklist
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-footer>
+  
+  <ion-footer>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" offset-md="3">
+          <ion-button expand="block" color="primary" (click)="importChecklist()">
+            import Checklist
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-footer>
+
 </ion-content>

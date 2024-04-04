@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
+import { Clipboard } from '@capacitor/clipboard';
 
 interface FoodItem {
   name: string;
   isChecked: boolean;
 }
+
 
 @Component({
   selector: 'app-checklist',
@@ -16,11 +18,12 @@ export class ChecklistPage implements OnInit {
                                                                                                                                             
   checklists: any;
   foodcheckcount = 0;
+  importedChecklist!: string;
 
   constructor(
     public navCtrl: NavController,
     private storage: Storage, 
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
   ) {}
 
   async ngOnInit() {
@@ -33,17 +36,16 @@ export class ChecklistPage implements OnInit {
   }
 
   loadItems() {
-    this.storage.get('checklist').then(valueStr => {
-      if (valueStr && valueStr.length > 0 && valueStr[0].foods) {
-        this.checklists = valueStr;
-        for (let counter = 0; counter < this.checklists[0].foods.length; counter++) {
-          if (this.checklists[0].foods[counter].isChecked) {
-            this.foodcheckcount++;
-          }
-        }
+    console.log("Loading items...");
+    this.storage.get('checklist').then(value => {
+      console.log("Retrieved checklist data:", value);
+      if (value && value.length > 0) {
+        this.checklists = value;
       } else {
         this.checklists = [];
       }
+    }).catch(error => {
+      console.error("Error loading checklist data:", error);
     });
   }
 
@@ -369,4 +371,179 @@ export class ChecklistPage implements OnInit {
     });
     alert.then(alert => alert.present());
   }
+
+  async shareChecklist() {
+    try {
+      const value = await this.storage.get('checklist');
+      if (!value || value.length === 0) {
+        const alertMessage = 'No checklist to share.';
+        const alert = await this.alertCtrl.create({
+          header: 'Alert',
+          message: alertMessage,
+          buttons: ['OK']
+        });
+        await alert.present();
+        return;
+      }
+  
+      const checklistJson = JSON.stringify(value);
+  
+      const alert = await this.alertCtrl.create({
+        header: 'Checklist Content',
+        message: checklistJson,
+        buttons: [
+          {
+            text: 'Copy',
+            handler: () => {
+              this.copyToClipboard(checklistJson);
+            }
+          },
+          {
+            text: 'OK',
+            role: 'cancel'
+          }
+        ]
+      });
+  
+      await alert.present();
+  
+      console.log('Checklist shared successfully.');
+    } catch (error) {
+      console.error('Error sharing checklist:', error);
+    }
+  }
+  
+  async copyToClipboard(text: string) {
+    await Clipboard.write({
+      string: text
+    });
+  }
+  
+  
+  async importChecklist() {
+    try {
+        const alert = await this.alertCtrl.create({
+            header: 'Import Checklist',
+            message: 'Paste your checklist JSON here:',
+            inputs: [
+                {
+                    name: 'importedChecklist',
+                    type: 'textarea',
+                    placeholder: 'Enter checklist JSON'
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel'
+                },
+                {
+                    text: 'Import',
+                    handler: (data) => {
+                        this.handleImportedChecklist(data.importedChecklist);
+                    }
+                }
+            ]
+        });
+        await alert.present();
+    } catch (error) {
+        console.error('Error importing checklist:', error);
+        const alert = await this.alertCtrl.create({
+            header: 'Error',
+            message: 'An error occurred while importing the checklist.',
+            buttons: ['OK']
+        });
+        await alert.present();
+    }
+}
+
+async handleImportedChecklist(checklistJson: string) {
+    try {
+        if (!checklistJson.trim()) {
+            const alert = await this.alertCtrl.create({
+                header: 'Error',
+                message: 'Please paste a valid checklist JSON.',
+                buttons: ['OK']
+            });
+            await alert.present();
+            return;
+        }
+
+        const sharedChecklist = JSON.parse(checklistJson);
+
+        const confirmAlert = await this.alertCtrl.create({
+            header: 'Import Options',
+            message: 'Do you want to merge the imported checklist with your existing one or overwrite it?',
+            buttons: [
+                {
+                    text: 'Merge',
+                    handler: () => {
+                        this.mergeChecklist(sharedChecklist);
+                    }
+                },
+                {
+                    text: 'Overwrite',
+                    handler: () => {
+                        this.overwriteChecklist(sharedChecklist);
+                    }
+                }
+            ]
+        });
+
+        await confirmAlert.present();
+    } catch (error) {
+        console.error('Error importing checklist:', error);
+        const alert = await this.alertCtrl.create({
+            header: 'Error',
+            message: 'An error occurred while importing the checklist.',
+            buttons: ['OK']
+        });
+        await alert.present();
+    }
+}
+
+  async mergeChecklist(sharedChecklist: any[]) {
+    try {
+      const existingChecklist = await this.storage.get('checklist') || [];
+      const mergedChecklist = existingChecklist.concat(sharedChecklist);
+      this.checklists = mergedChecklist;
+      await this.storage.set('checklist', mergedChecklist);
+      const alert = await this.alertCtrl.create({
+        header: 'Success',
+        message: 'Checklist merged successfully.',
+        buttons: ['OK']
+      });
+      await alert.present();
+    } catch (error) {
+      console.error('Error merging checklist:', error);
+      const alert = await this.alertCtrl.create({
+        header: 'Error',
+        message: 'An error occurred while merging the checklist.',
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
+  }
+
+  async overwriteChecklist(sharedChecklist: any[]) {
+    try {
+      await this.storage.set('checklist', sharedChecklist);
+      this.checklists = sharedChecklist;
+      const alert = await this.alertCtrl.create({
+        header: 'Success',
+        message: 'Checklist overwritten successfully.',
+        buttons: ['OK']
+      });
+      await alert.present();
+    } catch (error) {
+      console.error('Error overwriting checklist:', error);
+      const alert = await this.alertCtrl.create({
+        header: 'Error',
+        message: 'An error occurred while overwriting the checklist.',
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
+  }
+  
 }
