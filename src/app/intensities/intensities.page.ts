@@ -8,23 +8,25 @@ import { Vibration } from '@ionic-native/vibration/ngx';
 })
 
 export class IntensitiesPage {
+  isAnimating: boolean = false;
 
-  constructor(
-    private vibration: Vibration
-  ) { }
+  constructor(private vibration: Vibration) { }
 
   vibratePhone() {
-    this.vibration.vibrate(1000); //1000 = 1 sec
+    this.vibration.vibrate(1000); // 1000 = 1 sec
   }
 
   handleImageClick(intensity: number, iconIndex: number) {
+    if (this.isAnimating) {
+      console.log("Animation is still ongoing. Ignoring click.");
+      return;
+    }
+
     console.log("Clicked on icon with intensity:", intensity);
     this.vibratePhone();
     const icon = document.querySelectorAll('.inten')[iconIndex - 1] as HTMLElement;
-    
- 
+
     const keyframesIdentifier = `shake-${intensity}-${iconIndex}-${Date.now()}`;
-    
 
     const shakeKeyframes = `@keyframes ${keyframesIdentifier} {
       0% { transform: translateX(0); }
@@ -39,21 +41,20 @@ export class IntensitiesPage {
       90% { transform: translateX(-${intensity * 2}px); }
       100% { transform: translateX(${intensity * 2}px); }
     }`;
-    
- 
+
     const style = document.createElement('style');
     style.innerHTML = shakeKeyframes;
     document.head.appendChild(style);
-    
-  
-    icon.style.animation = `${keyframesIdentifier} 3s ease-in-out`; 
-    
+
+    this.isAnimating = true;
+
+    icon.style.animation = `${keyframesIdentifier} 3s ease-in-out`;
+
     setTimeout(() => {
       console.log("Stop shaking");
-     
       style.remove();
       icon.style.animation = '';
-    }, 3000); //3000 = 3 sec
+      this.isAnimating = false; 
+    }, 3000); // 3000 = 3 sec
   }
-
 }
