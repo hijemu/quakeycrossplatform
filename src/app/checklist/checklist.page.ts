@@ -8,7 +8,6 @@ interface FoodItem {
   isChecked: boolean;
 }
 
-
 @Component({
   selector: 'app-checklist',
   templateUrl: './checklist.page.html',
@@ -386,7 +385,13 @@ export class ChecklistPage implements OnInit {
         return;
       }
   
-      const checklistJson = JSON.stringify(value);
+      const checklistCopy = value.map((checklistItem: any) => {
+        const { isChecked, ...rest } = checklistItem;
+        const foodItems = checklistItem.foods ? checklistItem.foods.map((foodItem: FoodItem) => ({ name: foodItem.name })) : [];
+        return { ...rest, foods: foodItems };
+      });
+  
+      const checklistJson = JSON.stringify(checklistCopy);
   
       const alert = await this.alertCtrl.create({
         header: 'Checklist Content',
@@ -411,7 +416,7 @@ export class ChecklistPage implements OnInit {
     } catch (error) {
       console.error('Error sharing checklist:', error);
     }
-  }
+  }  
   
   async copyToClipboard(text: string) {
     await Clipboard.write({
